@@ -7,12 +7,13 @@
 @stop
 
 @section('content')
-    <form action="">
+    <form method="POST" action="{{ route('product.store') }}"  role="form" enctype="multipart/form-data">
+    {{csrf_field()}}
     	<div class="form-group">
-    	<input type="Text" placeholder="SKU">
+    	<input name="sku" type="Text" placeholder="SKU">
     	</div>
     	<div class="form-group">
-    	<input type="Text" placeholder="producto">
+    	<input name="name" type="Text" placeholder="producto">
     	</div>
 		<button type="submit" class="btn btn-primary">Enviar</button>
     </form>
