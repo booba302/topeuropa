@@ -17,6 +17,11 @@
     	</div>
 		<button type="submit" class="btn btn-primary">Enviar</button>
     </form>
+
+    @foreach($products as $product)
+    {{$product->sku}}
+    {{$product->name}}
+    @endforeach
 @stop
 
 @section('css')
