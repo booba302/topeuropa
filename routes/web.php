@@ -24,3 +24,7 @@ Route::get('/home', function() {
 })->name('home')->middleware('auth');
 
 Route::resource('product', 'ProductController');
+
+Route::get('/inventory', function() {
+    return view('inventory');
+})->name('inventory')->middleware('auth');
