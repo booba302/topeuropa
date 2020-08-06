@@ -7,7 +7,15 @@
 @stop
 
 @section('content')
-    <h1>Acá es donde vas a echar código de toda la vista ps, todo lo demás se lo trae de la plantilla por defecto</h1>
+    <form action="">
+    	<div class="form-group">
+    	<input type="Text" placeholder="SKU">
+    	</div>
+    	<div class="form-group">
+    	<input type="Text" placeholder="producto">
+    	</div>
+		<button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
 @stop
 
 @section('css')
