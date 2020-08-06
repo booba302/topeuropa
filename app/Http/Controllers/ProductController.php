@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Products;
+use App\Imports\ProductsImport;
+use Auth;
+use Excel;
 
 class ProductController extends Controller
 {
@@ -16,7 +19,7 @@ class ProductController extends Controller
     {
         //
         $products = Products::all();
-        return view('prueba', compact('products'));
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -38,11 +41,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
-        Products::create([
-            'sku' => $request['sku'],
-            'name' => $request['name'],
-        ]);
-
+        $path1 = $request->file('file')->store('temp');
+        $path = storage_path('app').'/'.$path1;
+        Excel::import(new ProductsImport, $path);
+        
         return redirect()->route('product.index');
     }
 

@@ -8,6 +8,7 @@ class Products extends Model
 {
     //
     protected $fillable = [
-        'sku', 'name',
+        'category','line','sku','ean','price','stock','title','desc',
+        'i_1','i_2','i_3','i_4','i_5','generic_keyword','platinum_keyword'
     ];
 }
