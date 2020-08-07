@@ -28,7 +28,7 @@
                     <tbody>
                     @foreach($cases as $case)
                       <tr>
-                         <td><a href="#">{{$case->created_at}}</a></td>
+                         <td><a href="#">{{date("d-m-Y",strtotime($case->created_at))}}</a></td>
                         <td><a href="#">{{$case->state}}</a></td>
                         <td><span class="badge badge-danger">{{$case->id}}</span></td>
                         <td>{{$case->ean}}</td>
