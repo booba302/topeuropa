@@ -1,4 +1,4 @@
-<?php
+|<?php
 
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +24,4 @@ Route::get('/home', function() {
 })->name('home')->middleware('auth');
 
 Route::resource('product', 'ProductController');
+Route::resource('cases', 'CasesController');
