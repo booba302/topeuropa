@@ -40,7 +40,6 @@ class CasesController extends Controller
     public function store(Request $request)
         {
 
-
         $user = Auth::user()->name;
         var_dump($user);
         $state = 'pendiente';
@@ -55,7 +54,6 @@ class CasesController extends Controller
             'annotation' => $request['annotation'],
             'user' => $user
         ]);
-
 
         return redirect()->route('cases.index');
     }

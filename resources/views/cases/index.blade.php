@@ -60,24 +60,24 @@
         <form method="POST" action="{{ route('cases.store') }}"  role="form" enctype="multipart/form-data">
            {{ csrf_field() }}
             <div class="form-group">
-                  <input type="text" name="caseID" id="caseID" placeholder="ID">
+                  <input type="text" name="caseID" placeholder="ID">
             </div>
              <div class="form-group">
-                  <input type="text" id="ean" placeholder="EAN">
+                  <input type="text" name="ean" placeholder="EAN">
             </div>
              <div class="form-group">
-                  <input type="text" id="ipxs" placeholder="IPXS">
+                  <input type="text" name="ipxs" placeholder="IPXS">
             </div>
              <div class="form-group">
-                  <input type="text" id="product" placeholder="Product">
+                  <input type="text" name="product" placeholder="Product">
             </div>
              <div class="form-group">
-                  <textarea id="details" placeholder="Details"></textarea>
+                  <textarea id="details" name="details" placeholder="Details"></textarea>
             </div>
              <div class="form-group">
-                  <textarea placeholder="Anotaciones" id="annotation"></textarea>
+                  <textarea placeholder="Anotaciones" name="annotation"></textarea>
             </div>
-            <div type="submit" class="btn btn-primary">Submit</div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>
