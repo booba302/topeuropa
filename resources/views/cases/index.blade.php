@@ -11,7 +11,7 @@
 
 @section('content')
  <div class="table-responsive">
-                  <table class="table align-items-center table-flush">
+                  <table id="casesTable" class="display nowrap" cellspacing="0" style="width:100%" >
                     <thead class="thead-light">
                       <tr>
                         <th>Fecha</th>
@@ -22,22 +22,32 @@
                         <th>PRODUCTO</th>
                         <th>Detalles</th>
                         <th>Anotaciones</th>
+                        <th>Gestor</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
+
                     @foreach($cases as $case)
-                      <tr>
-                         <td><a href="#">{{date("d-m-Y",strtotime($case->created_at))}}</a></td>
-                        <td><a href="#">{{$case->state}}</a></td>
-                        <td><span class="badge badge-danger">{{$case->id}}</span></td>
+                    
+                    <!-- Getting the intials of the user full bname -->
+                     <?php
+                        $username = $case->user;
+                        $pos = strpos($username, " ");
+                        $gestor = $username[0] . $username[$pos + 1];
+                     ?>
+                      <tr data-key-1="{{$case->product}}" data-key-2="{{$case->details}}" data-key-3="{{$case->annotation}}">
+                        <td><a href="#">{{date("d-m-Y",strtotime($case->created_at))}}</a></td>
+                        <td><span class="badge badge-warning" style="color:White; font-size: 13px">{{$case->state}}</span></td>
+                        <td>{{$case->id}}</span></td>
                         <td>{{$case->ean}}</td>
                         <td>{{$case->ipxs}}</td>
-                        <td>{{$case->product}}</td>
-                        <td>{{$case->details}}</td>
-                        <td>{{$case->annotation}}</td>
+                        <td class="details-control-product">{{\Illuminate\Support\Str::limit($case->product, 10) }}</td>
+                        <td class="details-control-details">{{\Illuminate\Support\Str::limit($case->details, 10) }}</td>
+                        <td class="details-control-annotation">{{\Illuminate\Support\Str::limit($case->annotation, 10) }}</td>
+                        <td>{{$gestor}}</td>
                         <td>
-                          <a href="#" class="btn btn-sm btn-primary mb-2">Editar</a>
+                          <a href="#" class="btn btn-sm btn-primary">Editar</a>
 
                           <a style="display: inline-block;" href="#" class="btn btn-sm btn-danger">Eliminar</a>
                         </td>
@@ -88,20 +98,117 @@
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
      <link rel="stylesheet" href="/css/style.css">
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
      <style>
+
+        @import url('//cdn.datatables.net/1.10.2/css/jquery.dataTables.css');
+        
+         td.details-control-product {
+            cursor: pointer;
+            position: relative;
+        }
+        tr.shown td.details-control-product {
+            position: relative;
+        }
+
+        td.details-control-details {
+            cursor: pointer;
+            position: relative;
+        }
+        tr.shown td.details-control-details {
+            position: relative;
+        }
+
+        td.details-control-annotation {
+            cursor: pointer;
+            position: relative;
+        }
+        tr.shown td.details-control-annotation {
+            position: relative;
+        }
 
         td{
             font-size: 14px;
-        }
-         .stock-number{
-            margin-top:10px; 
-            padding-top: 8px;
-            padding: 8px;      
-
-        }
      </style>
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+   <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+      
+       function format(dataSource) {
+      var html= '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
+      for (var key in dataSource){
+         html +='<tr>'+
+            '<td>'+ key +'</td>'+
+            '<td>'+ dataSource[key] +'</td>'+
+        '</tr>';
+      }
+      return html + '</table>';
+  }
+  $(document).ready(function () {
+      var table = $('#casesTable').DataTable({});
+
+      // Add event listener for opening and closing details
+      $('#casesTable').on('click', 'td.details-control-product', function () {
+          var tr = $(this).closest('tr');
+          var row = table.row(tr);
+
+          if (row.child.isShown()) {
+              // This row is already open - close it
+              row.child.hide();
+              tr.removeClass('shown');
+          } else {
+              // Open this row
+              row.child(format({
+
+                'Nombre del Producto' : tr.data('key-1'),
+                
+              })).show();
+               
+              tr.addClass('shown');
+          }
+      });
+
+         $('#casesTable').on('click', 'td.details-control-details', function () {
+          var tr = $(this).closest('tr');
+          var row = table.row(tr);
+
+          if (row.child.isShown()) {
+              // This row is already open - close it
+              row.child.hide();
+              tr.removeClass('shown');
+          } else {
+              // Open this row
+              row.child(format({
+
+                'Detalles del caso' : tr.data('key-2')
+
+              })).show();
+               
+              tr.addClass('shown');
+          }
+      });
+
+         $('#casesTable').on('click', 'td.details-control-annotation', function () {
+          var tr = $(this).closest('tr');
+          var row = table.row(tr);
+
+          if (row.child.isShown()) {
+              // This row is already open - close it
+              row.child.hide();
+              tr.removeClass('shown');
+          } else {
+              // Open this row
+              row.child(format({
+                'Anotaciones' : tr.data('key-3')
+              })).show();
+               
+              tr.addClass('shown');
+          }
+      });
+  });
+
+
+      </script>
 @stop
