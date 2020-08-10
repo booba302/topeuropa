@@ -4,7 +4,7 @@
 
 @section('content_header')
     <div><h1>Catalogo</h1></div>
-    <form method="POST" action="{{ route('product.store') }}"  name="importform" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('product.store') }}"  id="importform" name="importform" enctype="multipart/form-data">
          {{ csrf_field() }}
       <div class="form-group float-left">
         <label for="file">Subir inventario</label>
@@ -38,13 +38,7 @@
                     @foreach($products as $product)
                       <tr data-key-1="{{$product->i_1}}" data-key-2="{{$product->i_2}}" data-key-3="{{$product->i_3}}" data-key-4="{{$product->i_4}}" data-key-5="{{$product->i_5}}" data-key-6="{{$product->generic_keyword}}" data-key-7="{{$product->platinum_keyword}}" data-key-8="Prueba1" data-key-9="Prueba2" data-key-10="prueba3" data-key-11="{{$product->title}}" data-key-12="{{$product->desc}}">
                         <td><a href="#">{{$product->id}}</a></td>
-                        <?php   
-
-                          $state = 'Inactivo'
-
-
-                         ?>
-                        <td><span id="stateIndicator" class="badge badge-danger" productID="{{$product->id}}">{{$state}}</span></td>
+                        <td><a @if($product->id_status == 1) class="badge badge-danger" @elseif($product->id_status == 2) class="badge badge-success" @endif id="status-{{$product->id}}" name="{{$product->id}}" href=#>{{$product->status->status}}</a></td>
                         <td>{{$product->category}}</td>
                         <td>{{$product->line}}</td>
                         <td>{{$product->sku}}</td>
@@ -143,6 +137,14 @@
 @stop
 
 @section('js')
+<script>
+  $('.badge').on('click', function(event){
+    var name = this.name;
+    var url = '{{ route("product_status", ":id") }}';
+    url = url.replace(':id', name);
+    $('#importform').attr('action', url).attr('method','GET').submit();
+  });    
+</script>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script>
       

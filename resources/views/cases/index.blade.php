@@ -31,11 +31,6 @@
                     @foreach($cases as $case)
                     
                     <!-- Getting the intials of the user full bname -->
-                     <?php
-                        $username = $case->user;
-                        $pos = strpos($username, " ");
-                        $gestor = $username[0] . $username[$pos + 1];
-                     ?>
                       <tr data-key-1="{{$case->product}}" data-key-2="{{$case->details}}" data-key-3="{{$case->annotation}}">
                         <td><a href="#">{{date("d-m-Y",strtotime($case->created_at))}}</a></td>
                         <td><span class="badge badge-warning" style="color:White; font-size: 13px">{{$case->state}}</span></td>
@@ -45,7 +40,7 @@
                         <td class="details-control-product">{{\Illuminate\Support\Str::limit($case->product, 10) }}</td>
                         <td class="details-control-details">{{\Illuminate\Support\Str::limit($case->details, 10) }}</td>
                         <td class="details-control-annotation">{{\Illuminate\Support\Str::limit($case->annotation, 10) }}</td>
-                        <td>{{$gestor}}</td>
+                        <td>{{$case->user}}</td>
                         <td>
                           <a href="#" class="btn btn-sm btn-primary">Editar</a>
 

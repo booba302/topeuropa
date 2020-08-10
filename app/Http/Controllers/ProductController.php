@@ -92,4 +92,18 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function status($id)
+    {
+        $products = Products::where('id','=',$id)->get();
+        foreach($products as $product){
+            $pro = $product->id_status;
+        }
+        if($pro == 1){
+            Products::find($id)->update(['id_status' => 2]);
+        }else if($pro == 2){
+            Products::find($id)->update(['id_status' => 1]);
+        }
+        return redirect()->route('product.index');
+    }
 }
