@@ -27,3 +27,4 @@ Route::resource('product', 'ProductController');
 Route::resource('cases', 'CasesController');
 
 Route::get('product_status/{id}','ProductController@status')->name('product_status');
+Route::get('test','ProductController@test')->name('test');

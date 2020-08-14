@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Products;
 use App\Imports\ProductsImport;
-use Auth;
+use App\Imports\TestImport;
+use App\Products;
 use Excel;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -42,9 +42,9 @@ class ProductController extends Controller
     {
         //
         $path1 = $request->file('file')->store('temp');
-        $path = storage_path('app').'/'.$path1;
+        $path = storage_path('app') . '/' . $path1;
         Excel::import(new ProductsImport, $path);
-        
+
         return redirect()->route('product.index');
     }
 
@@ -95,15 +95,26 @@ class ProductController extends Controller
 
     public function status($id)
     {
-        $products = Products::where('id','=',$id)->get();
-        foreach($products as $product){
+        $products = Products::where('id', '=', $id)->get();
+        foreach ($products as $product) {
             $pro = $product->id_status;
         }
-        if($pro == 1){
+        if ($pro == 1) {
             Products::find($id)->update(['id_status' => 2]);
-        }else if($pro == 2){
+        } else if ($pro == 2) {
             Products::find($id)->update(['id_status' => 1]);
         }
         return redirect()->route('product.index');
+    }
+
+    public function test()
+    {
+
+        //$path1 = $request->file('file')->store('temp');
+        $path = storage_path('app').'/'.'prueba.xlsx';
+        var_dump($path);
+        $data = Excel::toArray(new TestImport, $path);
+
+        return response()->json($data);
     }
 }
